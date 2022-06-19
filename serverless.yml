@@ -13,7 +13,7 @@ provider:
             - dynamodb:Query
             - dynamodb:Scan
             - dynamodb:CreateTable
-            - dynamodbListTables
+            - dynamodb:ListTables
             - dynamodb:GetItem
             - dynamodb:PutItem
             - dynamodb:UpdateItem
