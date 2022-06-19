@@ -2,10 +2,32 @@ service: aws-python
 provider:
   name: aws
   runtime: python3.8
+  timeout: 30
+  memorySize: 128
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:DescribeTable
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:CreateTable
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:ListStreams
+          Resource: "arn:aws:dynamodb:us-east-1:*:*"
+        - Effect: Allow
+          Action:
+            - sns:Publish
+            - sns:Subscribe
+          Resource: "arn:aws:sns:us-east-1:*:*"
 plugins:
   - serverless-offline
 custom:
-  baseApi: person  
+  baseApi: person
 functions:
   create:
     handler: create.handler
@@ -18,7 +40,7 @@ functions:
     events:
       - http:
           path: ${self:custom.baseApi}/update/{id}
-          method: put        
+          method: put
   list:
     handler: list.handler
     events:
@@ -36,4 +58,4 @@ functions:
     events:
       - http:
           path: ${self:custom.baseApi}/delete/{id}
-          method: delete                  
+          method: delete
