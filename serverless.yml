@@ -1,0 +1,39 @@
+service: aws-python
+provider:
+  name: aws
+  runtime: python3.8
+plugins:
+  - serverless-offline
+custom:
+  baseApi: person  
+functions:
+  create:
+    handler: create.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/create
+          method: post
+  update:
+    handler: update.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/update/{id}
+          method: put        
+  list:
+    handler: list.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/list
+          method: get
+  show:
+    handler: show.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/show/{id}
+          method: get
+  delete:
+    handler: delete.handler
+    events:
+      - http:
+          path: ${self:custom.baseApi}/delete/{id}
+          method: delete                  
